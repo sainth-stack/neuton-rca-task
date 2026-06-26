@@ -1,0 +1,33 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Secrets — never commit
+backend/.env
+.env
+.env.local
+
+# Runtime data — regenerated on upload
+backend/data/logs.sqlite
+backend/data/chroma/
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+
+# Node
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
