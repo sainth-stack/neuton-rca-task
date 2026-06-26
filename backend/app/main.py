@@ -13,9 +13,9 @@ app = FastAPI(
     version=settings.app_version,
     description=API_DESCRIPTION,
     openapi_tags=OPENAPI_TAGS,
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
 )
 
 app.add_middleware(
@@ -39,5 +39,5 @@ def root() -> dict[str, str]:
     return {
         "service": settings.app_name,
         "version": settings.app_version,
-        "docs": "/docs",
+        "docs": "/api/docs",
     }

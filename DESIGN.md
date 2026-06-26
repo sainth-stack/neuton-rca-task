@@ -104,4 +104,4 @@ Parsing is fully deterministic. Only embedding uses the LLM API.
 | POST /api/investigate | Run RCA query |
 | GET /api/health | Status check |
 
-Full docs: http://127.0.0.1:8000/docs
+Full docs: http://127.0.0.1:8000/api/docs
