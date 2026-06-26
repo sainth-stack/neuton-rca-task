@@ -6,14 +6,6 @@ from app.investigate.service import run_investigation
 router = APIRouter(prefix="/investigate", tags=["investigate"])
 
 
-@router.post(
-    "",
-    response_model=InvestigateResponse,
-    summary="Investigate an incident",
-    description=(
-        "Accepts a natural-language query and returns a structured root-cause analysis "
-        "with triggers, symptoms, cited log evidence, and agent reasoning steps."
-    ),
-)
+@router.post("", response_model=InvestigateResponse)
 def investigate(payload: InvestigateRequest) -> InvestigateResponse:
     return run_investigation(payload)

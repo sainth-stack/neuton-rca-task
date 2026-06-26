@@ -3,7 +3,6 @@ import { AppBar, Box, Breadcrumbs, IconButton, Toolbar, Typography } from "@mui/
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import { navSections } from "@/components/layouts/nav-config";
-import StatusChip from "@/components/ui/StatusChip";
 import { colors, layoutTokens } from "@/lib/theme";
 
 type TopbarProps = {

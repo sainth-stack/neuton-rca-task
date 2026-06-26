@@ -9,12 +9,7 @@ from app.llm.client import is_openai_configured
 router = APIRouter(tags=["health"])
 
 
-@router.get(
-    "/health",
-    response_model=HealthResponse,
-    summary="Health check",
-    description="Returns service name, version, and a simple status flag. Use this to confirm the API is up.",
-)
+@router.get("/health", response_model=HealthResponse)
 def health_check() -> HealthResponse:
     settings = get_settings()
     indexed_events = count_events()

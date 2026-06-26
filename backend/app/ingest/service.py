@@ -20,7 +20,6 @@ _resuming_embeds: set[str] = set()
 
 
 def bootstrap_data() -> None:
-    """Initialize an empty database — no bundled logs are loaded automatically."""
     init_db()
 
 
@@ -252,7 +251,6 @@ async def upload_log_files(
 
 
 def delete_uploaded_source(filename: str) -> tuple[int, int]:
-    """Remove an uploaded file from disk, SQLite, and Chroma."""
     safe_name = Path(filename).name
     if not safe_name or safe_name != filename:
         raise HTTPException(status_code=400, detail="Invalid filename.")

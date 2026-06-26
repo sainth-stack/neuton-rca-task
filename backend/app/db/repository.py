@@ -106,7 +106,6 @@ def get_stored_source(filename: str) -> LogSource | None:
 
 
 def delete_source(filename: str) -> int:
-    """Delete a log source and all its events. Returns number of events removed."""
     with get_connection() as conn:
         count_row = conn.execute(
             "SELECT COUNT(*) AS total FROM log_events WHERE source_file = ?",

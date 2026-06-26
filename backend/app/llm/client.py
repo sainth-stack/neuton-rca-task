@@ -45,7 +45,6 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
 
 
 def parse_investigation_query(query: str) -> dict[str, Any]:
-    """Use the LLM to extract structured filters from a natural-language query."""
     client = get_openai_client()
     if client is None:
         return {}
@@ -77,7 +76,6 @@ def parse_investigation_query(query: str) -> dict[str, Any]:
 
 
 def synthesize_rca(query: str, evidence_blocks: list[str], agent_steps: list[str]) -> dict[str, Any]:
-    """Turn retrieved log evidence into a structured RCA answer."""
     client = get_openai_client()
     if client is None:
         raise RuntimeError("OPENAI_API_KEY is not configured.")

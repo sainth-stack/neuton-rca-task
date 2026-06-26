@@ -1,9 +1,7 @@
 import { apiClient } from "./client";
 import type { ApiHealthResponse } from "./types";
 
-/** Health endpoints — see Swagger tag `health`. */
 export const healthApi = {
-  /** GET /api/health */
   check() {
     return apiClient.get<ApiHealthResponse>("/health");
   },

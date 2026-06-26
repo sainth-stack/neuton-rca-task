@@ -8,17 +8,12 @@ from app.db import repository
 router = APIRouter(prefix="/logs", tags=["logs"])
 
 
-@router.get(
-    "",
-    response_model=LogsListResponse,
-    summary="Search indexed log events",
-    description="Filter stored log lines by tenant, level, source file, and free-text search.",
-)
+@router.get("", response_model=LogsListResponse)
 def list_logs(
-    tenant: Optional[str] = Query(default=None, description="Tenant id, e.g. TENANT-X"),
-    level: Optional[str] = Query(default=None, description="Log level, e.g. ERROR"),
-    source: Optional[str] = Query(default=None, description="Source filename"),
-    search: Optional[str] = Query(default=None, description="Search message, logger, or log id"),
+    tenant: Optional[str] = Query(default=None),
+    level: Optional[str] = Query(default=None),
+    source: Optional[str] = Query(default=None),
+    search: Optional[str] = Query(default=None),
     limit: int = Query(default=50, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
 ) -> LogsListResponse:

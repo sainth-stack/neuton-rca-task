@@ -43,7 +43,6 @@ class VectorStore:
         return len(existing["ids"] or [])
 
     def index_entries(self, filename: str, entries: list[LogEntry]) -> int:
-        """Embed ERROR/WARN lines for semantic retrieval during investigations."""
         self.delete_source(filename)
 
         candidates = [entry for entry in entries if entry.level in {"ERROR", "WARN"}]

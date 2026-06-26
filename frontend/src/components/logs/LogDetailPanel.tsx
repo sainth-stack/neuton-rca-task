@@ -46,7 +46,7 @@ export default function LogDetailPanel({ event }: LogDetailPanelProps) {
     try {
       await navigator.clipboard.writeText(rawText);
     } catch {
-      // Clipboard may be unavailable in non-secure contexts.
+      return;
     }
   };
 

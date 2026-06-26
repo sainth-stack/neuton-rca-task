@@ -69,7 +69,6 @@ def _run_with_openai(query: str, bundle: RetrievalBundle) -> InvestigateResponse
 
 
 def _run_deterministic_fallback(query: str, bundle: RetrievalBundle) -> InvestigateResponse:
-    """Rule-based RCA when OPENAI_API_KEY is missing."""
     if bundle.noise_scenario:
         triggers = [event for event in bundle.events if "Internal processing timeout" in event.message]
         symptoms = [event for event in bundle.events if "SLA threshold" in event.message]

@@ -11,9 +11,7 @@ export type ListLogsParams = {
   offset?: number;
 };
 
-/** Logs endpoints — see Swagger tag `logs`. */
 export const logsApi = {
-  /** GET /api/logs */
   list(params?: ListLogsParams) {
     return apiClient.get<ApiLogsListResponse>("/logs", { params });
   },

@@ -1,6 +1,5 @@
 import axios, { isAxiosError } from "axios";
 
-/** Shared axios instance — all API modules use this. */
 export const apiClient = axios.create({
   baseURL: "/api",
   timeout: 120_000,

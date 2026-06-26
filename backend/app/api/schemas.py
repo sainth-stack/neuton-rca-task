@@ -4,8 +4,6 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class HealthResponse(BaseModel):
-    """Health check payload."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -21,19 +19,17 @@ class HealthResponse(BaseModel):
         }
     )
 
-    status: str = Field(description="Service status, typically `ok`.")
-    version: str = Field(description="API version string.")
-    service: str = Field(description="Human-readable service name.")
-    openai_configured: bool = Field(default=False, description="Whether OPENAI_API_KEY is set.")
-    indexed_events: int = Field(default=0, description="Number of log lines stored in SQLite.")
-    indexed_tenants: int = Field(default=0, description="Distinct tenant IDs in the index.")
-    error_warn_events: int = Field(default=0, description="ERROR + WARN lines eligible for RCA.")
-    uploaded_sources: int = Field(default=0, description="Number of uploaded log files indexed.")
+    status: str
+    version: str
+    service: str
+    openai_configured: bool = False
+    indexed_events: int = 0
+    indexed_tenants: int = 0
+    error_warn_events: int = 0
+    uploaded_sources: int = 0
 
 
 class LogSource(BaseModel):
-    """Metadata for one ingested log file."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -48,29 +44,23 @@ class LogSource(BaseModel):
         }
     )
 
-    filename: str = Field(description="Original log file name.")
-    lines: int = Field(description="Total line count in the file.")
-    tenants: list[str] = Field(description="Tenant IDs found while parsing.")
-    status: Literal["ready", "pending", "processing", "error"] = Field(
-        description="Parse / ingest status. `processing` = parsed into SQLite, Chroma embedding in progress."
-    )
-    last_ingested: Optional[str] = Field(default=None, description="ISO-8601 timestamp of last ingest.")
-    source_type: Literal["uploaded"] = Field(default="uploaded", description="Where the file came from.")
-    description: Optional[str] = Field(default=None, description="Optional short description.")
+    filename: str
+    lines: int
+    tenants: list[str]
+    status: Literal["ready", "pending", "processing", "error"]
+    last_ingested: Optional[str] = None
+    source_type: Literal["uploaded"] = "uploaded"
+    description: Optional[str] = None
 
 
 class DeleteSourceResponse(BaseModel):
-    """Result of deleting an uploaded log file."""
-
-    message: str = Field(description="Short human-readable summary.")
-    filename: str = Field(description="Deleted log file name.")
-    events_removed: int = Field(description="Log lines removed from SQLite.")
-    vectors_removed: int = Field(description="Embeddings removed from Chroma.")
+    message: str
+    filename: str
+    events_removed: int
+    vectors_removed: int
 
 
 class UploadResponse(BaseModel):
-    """Result of uploading one or more log files."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -91,22 +81,18 @@ class UploadResponse(BaseModel):
         }
     )
 
-    message: str = Field(description="Short human-readable summary.")
-    uploaded: list[LogSource] = Field(description="Parsed metadata for each uploaded file.")
-    duration_ms: int = Field(description="Server-side processing time in milliseconds.")
+    message: str
+    uploaded: list[LogSource]
+    duration_ms: int
 
 
 class IngestRequest(BaseModel):
-    """Optional list of filenames to ingest. Empty list ingests all known sources."""
-
     model_config = ConfigDict(json_schema_extra={"example": {"filenames": ["production_incident_01.log"]}})
 
-    filenames: list[str] = Field(default_factory=list, description="Filenames to parse. Omit to ingest everything.")
+    filenames: list[str] = Field(default_factory=list)
 
 
 class IngestResponse(BaseModel):
-    """Result of running the ingest pipeline."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -120,30 +106,26 @@ class IngestResponse(BaseModel):
     )
 
     message: str
-    parsed: int = Field(description="Number of successfully parsed log lines.")
-    errors: int = Field(description="Number of lines that could not be parsed.")
-    tenants: list[str] = Field(description="Unique tenant IDs seen in the selected files.")
-    duration_ms: int = Field(description="Server-side processing time in milliseconds.")
+    parsed: int
+    errors: int
+    tenants: list[str]
+    duration_ms: int
 
 
 class EvidenceItem(BaseModel):
-    """One log line cited as RCA evidence."""
-
-    log_id: str = Field(description="Stable id, usually `<filename>:<line>`.")
-    timestamp: str = Field(description="ISO-8601 event timestamp.")
+    log_id: str
+    timestamp: str
     tenant_id: str
     level: str
     message: str
-    role: Literal["trigger", "symptom", "context"] = Field(description="How this line relates to the incident.")
-    source_file: Optional[str] = Field(default=None, description="Original log filename.")
-    logger: Optional[str] = Field(default=None, description="Logger name from the log line.")
-    http_status: Optional[int] = Field(default=None, description="HTTP status when present in the message.")
-    stack_trace: list[str] = Field(default_factory=list, description="Stack frames attached to the log line.")
+    role: Literal["trigger", "symptom", "context"]
+    source_file: Optional[str] = None
+    logger: Optional[str] = None
+    http_status: Optional[int] = None
+    stack_trace: list[str] = Field(default_factory=list)
 
 
 class InvestigateRequest(BaseModel):
-    """Natural-language RCA query."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -153,25 +135,21 @@ class InvestigateRequest(BaseModel):
         }
     )
 
-    query: str = Field(description="Question to investigate, e.g. tenant + symptom.")
-    sources: list[str] = Field(default_factory=list, description="Optional filenames to restrict retrieval.")
+    query: str
+    sources: list[str] = Field(default_factory=list)
 
 
 class InvestigateResponse(BaseModel):
-    """Structured RCA answer with cited evidence."""
-
     query: str
     root_cause: str
     summary: str
-    triggers: list[str] = Field(description="Upstream events that initiated the failure.")
-    symptoms: list[str] = Field(description="Downstream visible effects.")
-    evidence: list[EvidenceItem] = Field(description="Log lines supporting the conclusion.")
-    agent_steps: list[str] = Field(description="High-level reasoning steps taken by the agent.")
+    triggers: list[str]
+    symptoms: list[str]
+    evidence: list[EvidenceItem]
+    agent_steps: list[str]
 
 
 class LogEventResponse(BaseModel):
-    """One indexed log line for the explorer."""
-
     log_id: str
     source_file: str
     timestamp: str
@@ -184,9 +162,7 @@ class LogEventResponse(BaseModel):
 
 
 class LogsListResponse(BaseModel):
-    """Paginated log explorer results."""
-
     total: int
     items: list[LogEventResponse]
-    tenants: list[str] = Field(description="Distinct tenant ids in the index.")
-    sources: list[str] = Field(description="Distinct source files in the index.")
+    tenants: list[str]
+    sources: list[str]

@@ -1,5 +1,3 @@
-/** Raw API shapes (snake_case) — mirrors backend Pydantic models. */
-
 export type ApiLogSource = {
   filename: string;
   lines: number;
