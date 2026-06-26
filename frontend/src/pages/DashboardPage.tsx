@@ -56,7 +56,7 @@ export default function DashboardPage() {
   return (
     <Box>
       <PageHeader
-        eyebrow="Neuron7 RCA"
+        eyebrow="RCA Engine"
         title="Dashboard"
         subtitle="Log intelligence platform for multi-tenant outage diagnosis."
         primaryAction={

@@ -9,7 +9,7 @@ class HealthResponse(BaseModel):
             "example": {
                 "status": "ok",
                 "version": "0.1.0",
-                "service": "Neuron7 RCA Engine",
+                "service": "RCA Engine",
                 "openai_configured": True,
                 "indexed_events": 0,
                 "indexed_tenants": 0,

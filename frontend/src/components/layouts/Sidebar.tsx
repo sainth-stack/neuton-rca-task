@@ -57,7 +57,7 @@ function SidebarContent({ sections }: { sections: NavSection[] }) {
         </Box>
         <Box>
           <Typography sx={{ fontFamily: displayFont, fontWeight: 700, fontSize: "0.9375rem", lineHeight: 1.2 }}>
-            Neuron7 RCA
+            RCA Engine
           </Typography>
           <Typography variant="caption" color="text.secondary">
             Log intelligence

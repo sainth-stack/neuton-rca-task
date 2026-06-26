@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.openapi import API_DESCRIPTION, OPENAPI_TAGS
+from app.api.openapi import OPENAPI_TAGS
 from app.api.router import api_router
 from app.config import get_settings
 from app.ingest.service import bootstrap_data
@@ -11,7 +11,6 @@ settings = get_settings()
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
-    description=API_DESCRIPTION,
     openapi_tags=OPENAPI_TAGS,
     docs_url="/api/docs",
     redoc_url="/api/redoc",
